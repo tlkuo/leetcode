@@ -126,8 +126,47 @@ function option4(input, start, end) {
         }
     }
 
+    // divided by rightIndex
     option4(input, start, rightIndex)
     option4(input, rightIndex + 1, end)
+}
+
+function option5(input, start, end) {
+    // select mid element as pivot
+    const pivotIndex = Math.floor((start + end) / 2)
+    const pivot = input[pivotIndex]
+    let leftIndex = start
+    let rightIndex = end
+
+    // skip if less or equal to one element
+    if (start >= end) {
+        return
+    }
+
+    while (true) {
+        // move rightIndex left if right > pivot
+        while (input[rightIndex] > pivot) {
+            rightIndex--
+        }
+
+        // move leftIndex right if left < pivot
+        while (input[leftIndex] < pivot) {
+            leftIndex++
+        }
+
+        // leftIndex <= rightIndex, then swap left and right
+        if (leftIndex <= rightIndex) {
+            [input[rightIndex], input[leftIndex]] = [input[leftIndex], input[rightIndex]]
+            leftIndex++
+            rightIndex--
+        } else {
+            break
+        }
+    }
+
+    // divided by leftIndex
+    option5(input, start, leftIndex - 1)
+    option5(input, leftIndex, end)
 }
 
 function quickSort(input) {
@@ -135,7 +174,8 @@ function quickSort(input) {
     // option1(input, 0, input.length - 1)
     // option2(input, 0, input.length - 1)
     // option3(input, 0, input.length - 1)
-    option4(input, 0, input.length - 1)
+    // option4(input, 0, input.length - 1)
+    option5(input, 0, input.length - 1)
     console.log(input)
 
     return input
