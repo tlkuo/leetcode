@@ -8,10 +8,10 @@ output: [1, 2, 3, 4]
 
 */
 
-function buildMaxHeap(input, heapSize) {
+function buildMaxHeap(input) {
 
-    for (let i = Math.floor(heapSize / 2); i >= 0; i--) {
-        maxHeapify(input, i, heapSize)
+    for (let i = Math.floor(input.length / 2) - 1; i >= 0; i--) {
+        maxHeapify(input, i, input.length)
     }
 }
 
@@ -21,11 +21,11 @@ function maxHeapify(input, rootIndex, heapSize) {
 
     let largestIndex = rootIndex
 
-    if (leftIndex <= heapSize && input[leftIndex] > input[largestIndex]) {
+    if (leftIndex < heapSize && input[leftIndex] > input[largestIndex]) {
         largestIndex = leftIndex
     }
 
-    if (rightIndex <= heapSize && input[rightIndex] > input[largestIndex]) {
+    if (rightIndex < heapSize && input[rightIndex] > input[largestIndex]) {
         largestIndex = rightIndex
     }
 
@@ -35,14 +35,42 @@ function maxHeapify(input, rootIndex, heapSize) {
     }
 }
 
-function heapSort(input) {
-    let heapSize = input.length - 1
+function buildMinHeap(input) {
 
-    buildMaxHeap(input, heapSize)
+    for (let i = Math.floor(input.length / 2) - 1; i >= 0; i--) {
+        minHeapify(input, i, input.length)
+    }
+}
+
+function minHeapify(input, rootIndex, heapSize) {
+    const leftIndex = rootIndex * 2 + 1
+    const rightIndex = rootIndex * 2 + 2
+    let minimalIndex = rootIndex
+
+    if (leftIndex < heapSize && input[leftIndex] < input[minimalIndex]) {
+        minimalIndex = leftIndex
+    }
+
+    if (rightIndex < heapSize && input[rightIndex] < input[minimalIndex]) {
+        minimalIndex = rightIndex
+    }
+
+    if (minimalIndex !== rootIndex) {
+        [input[minimalIndex], input[rootIndex]] = [input[rootIndex], input[minimalIndex]]
+        minHeapify(input, minimalIndex, heapSize)
+    }
+}
+
+function heapSort(input) {
+    let heapSize = input.length
+
+    buildMaxHeap(input)
+    // buildMinHeap(input)
 
     while (heapSize > 0) {
-        [input[0], input[heapSize]] = [input[heapSize], input[0]]
+        [input[0], input[heapSize - 1]] = [input[heapSize - 1], input[0]]
         maxHeapify(input, 0, --heapSize)
+        // minHeapify(input, 0, --heapSize)
     }
 
     console.log(input)
