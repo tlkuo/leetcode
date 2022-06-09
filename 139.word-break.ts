@@ -22,10 +22,9 @@ function helper(s: string, wordDict: string[], memo: Map<string, boolean>): bool
         if (s.startsWith(word)) {
             // recursive the wordBreak with the remaining word
             const result = helper(s.slice(word.length), wordDict, memo)
-            // and cache the result
-            memo.set(s, result)
 
             if (result === true) {
+                memo.set(s, true)
                 return true
             }
         }
